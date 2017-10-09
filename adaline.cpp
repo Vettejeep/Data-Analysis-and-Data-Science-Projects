@@ -81,8 +81,7 @@ bool Adaline::AdaptLMS(vector<double> &error, bool adapt)
 //  FUNCTION:	  Adaline::CalcDerivative
 //  DESCRIPTION:  get the transfer function derivative
 //******************************************************************************
-// this will only work for a differentiable transfer function -
-// add check for this? this is a generic derivative estimator
+// this will only work for a differentiable transfer function
 void Adaline::CalcDerivative(const vector<double> &in)
 {
     vector<double> loIn, hiIn, loOut, hiOut;
@@ -165,7 +164,7 @@ bool Adaline::SetWeights(const vector<vector<double> > &weights)
         mWeights.push_back(v);
     }
 
-    // return true if sizes seem OK - could check each row
+    // return true if sizes seem OK
     return (mWeights.size() > 0 && mWeights[0].size() > 0);
 }
 

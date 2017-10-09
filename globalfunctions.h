@@ -52,5 +52,5 @@ void Scale(vector<double> &vect, const double scale = 1.0);
 void Normalize(vector<double> &vect);
 double MaxAbsVal(const vector<double> &vect);
 
-#endif // TRANSFERFUNCTIONS_H
+#endif // GLOBALFUNCTIONS_H
 

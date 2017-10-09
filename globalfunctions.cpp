@@ -3,6 +3,8 @@
 
 #include<vector>
 #include<cmath>
+#include<exception>
+#include<stdexcept>
 
 using namespace std;
 
@@ -82,7 +84,7 @@ void satLin (const vector<double> &input, vector<double> &output)
 }
 
 /*=============================================================================
-    logSig - time consuming, so look for a simplification
+    logSig - time consuming
 =============================================================================*/
 void logSig(const vector<double> &input, vector<double> &output)
 {
@@ -93,7 +95,7 @@ void logSig(const vector<double> &input, vector<double> &output)
 }
 
 /*=============================================================================
-    symLogSig - time consuming, so look for a simplification
+    symLogSig - time consuming
     logSig expanded to -1:1
 =============================================================================*/
 void symLogSig (const vector<double> &input, vector<double> &output)
@@ -122,11 +124,11 @@ void vectorMultiply(const vector<vector<double> > &W,
    // the error can be handled up in the gui layer without cluttering up the
    // callers with 'if' statements
    if (p.size() == 0)
-      throw std::exception("Zero vector size in vectorMultiply");
+      throw std::invalid_argument("Zero vector size in vectorMultiply");
 
    // check that w has rows
    if (W.size() == 0)
-      throw std::exception("Rectangular array size = 0 vectorMultiply");
+      throw std::invalid_argument("Rectangular array size = 0 vectorMultiply");
 
    const double P_COLS = p.size();
    unsigned int row, col;
@@ -137,7 +139,7 @@ void vectorMultiply(const vector<vector<double> > &W,
    {
       // size if the columns of W must be = to length of p
       if (W[row].size() != P_COLS)
-         throw std::exception("Array size mismatch in vectorMultiply");
+         throw std::invalid_argument("Array size mismatch in vectorMultiply");
 
       // compute the output for each row
       rowVal = 0.0;
@@ -159,7 +161,7 @@ void vectorMultiply(const vector<double> &W,
    // throw exception, note that if p.size > W.size the algorithm would appear
    // to work but the resulting output might be different than expected
    if (W.size() != p.size())
-      throw std::exception("Array size mismatch in vectorMultiply");
+      throw std::invalid_argument("Array size mismatch in vectorMultiply");
 
    out = 0.0;
 

@@ -24,7 +24,6 @@ public:
     virtual ~Adaline() {}
 
     // inputs are kept const because they may be used by other nets
-    // return false if arrays are the wrong size
     void Run(const vector<double> &input, vector<double> &output);
 
     // set the transfer function, return false if null
@@ -37,7 +36,6 @@ public:
                            unsigned int cols,
                            const double maxVal = 0.02);
 
-    // TODO: add checks for consistent matrix sizes
     bool SetWeights(const vector<vector<double> > &weights);
     const vector<vector<double> >& GetWeights() const { return mWeights; }
     void GetNumWeights(unsigned int &rows, unsigned int &cols) const ;
