@@ -32,10 +32,10 @@ Second, Kubernetes and Minikube proved to be either very difficult to install or
 
 I believe that if I were hired that these issues could be resolved by some mentoring.  Sci-Tech has containers that work and I am sure that I would quickly be able to successfully learn this part of the tasks. Especially noting that I had no difficulty building a Docker compatible with PyTorch and GPU usage. The recipe is noted in app_train.py and is as follows:
 
-*docker pull pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime 
-*docker build -t pytorch-app . 
-*docker run -it --rm --gpus all -v $(pwd)/logs:/app/logs -v $(pwd)/model:/app/model -p 8898:8898 pytorch-app (gets a bash terminal)
-*python app_train.py (in the bash terminal)
++docker pull pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime  
++docker build -t pytorch-app .  
++docker run -it --rm --gpus all -v $(pwd)/logs:/app/logs -v $(pwd)/model:/app/model -p 8898:8898 pytorch-app (gets a bash terminal)  
++python app_train.py (in the bash terminal)  
 
 
 
