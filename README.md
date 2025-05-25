@@ -24,6 +24,8 @@ Maintaining backups was done by periodically moving the working code folder to a
 
 For training the Python script app_train.py can be called from the top level of the project. This calls train.py and uses a file of utilities called utils.py. For inference the file app_inference.py may be called in the same manner. The apps are called from the top level, the only code in the app files is to call the main function of the relevant application located in the src folder. Given the simplicity of the project I did not create a separate “lib” folder since it would have held only one file. In a more complex project this would be useful. 
 
+![Validation Error](img/project_structure.png)
+
 ### Containerization 
 
 Deployment was done to a Docker container and the code fully tested from there. Both training and inference worked as well with the container as they did in command line testing in Linux, which is to say that they worked very well. 
