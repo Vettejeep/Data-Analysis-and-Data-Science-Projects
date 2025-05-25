@@ -24,7 +24,18 @@ For training the Python script app_train.py can be called from the top level of 
 
 ### Containerization 
 
+Deployment was done to a Docker container and the code fully tested from there. Both training and inference worked as well with the container as they did in command line testing in Linux, which is to say that they worked very well. 
 
+However, there were two problems. First, the docker container with GPU support was too large for an email. Checking with ChatGPT this appears to be a difficult problem to solve as ChatGPT was expecting that even a runtime container for GPU usage would be as large as 5GB. I used an official PyTorch distribution for Docker, so perhaps with more Docker experience a smaller container can be built, but as noted above, ChatGPT was not optimistic about getting to under 25MB for an email.
+
+Second, Kubernetes and Minikube proved to be either very difficult to install or incompatible with my Ubuntu 24.04 Linux distribution. Thus I was unable to install Minikube, which I have no experience with.
+
+I believe that if I were hired that these issues could be resolved by some mentoring.  Sci-Tech has containers that work and I am sure that I would quickly be able to successfully learn this part of the tasks. Especially noting that I had no difficulty building a Docker compatible with PyTorch and GPU usage. The recipe is noted in app_train.py and is as follows:
+
+*docker pull pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime 
+*docker build -t pytorch-app . 
+*docker run -it --rm --gpus all -v $(pwd)/logs:/app/logs -v $(pwd)/model:/app/model -p 8898:8898 pytorch-app (gets a bash terminal)
+*python app_train.py (in the bash terminal)
 
 
 
