@@ -34,14 +34,14 @@ However, there were two problems. First, the docker container with GPU support w
 
 Second, Kubernetes and Minikube proved to be either very difficult to install or incompatible with my Ubuntu 24.04 Linux distribution. Thus I was unable to install Minikube, which I have no experience with.
 
-I believe that if I were hired that these issues could be resolved by some mentoring.  Sci-Tech has containers that work and I am sure that I would quickly be able to successfully learn this part of the task. Especially noting that I had no difficulty building a Docker compatible with PyTorch and GPU usage. The recipe is noted in app_train.py and is as follows:
+I believe that if I were hired that these issues could be resolved easily by some mentoring.  Sci-Tech has containers that work and I am sure that I would quickly be able to successfully learn this part of the task. Especially noting that I had no difficulty building a Docker compatible with PyTorch and GPU usage. The recipe is noted in app_train.py and is as follows:
 
 +docker pull pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime  
 +docker build -t pytorch-app .  
 +docker run -it --rm --gpus all -v \\$(pwd)/logs:/app/logs -v \\$(pwd)/model:/app/model -p 8898:8898 pytorch-app (gets a bash terminal)  
 +python app_train.py (in the bash terminal)  
 
+### Summary
 
-
-
+The model and project appear successful except for the lack of Minikube and the difficulty of building a small enough docker image to email that has GPU support.  
 
