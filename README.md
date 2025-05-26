@@ -61,6 +61,10 @@ I believe that if I were hired that these issues could be resolved easily by som
 +python app_train.py (in the bash terminal)  
 +python app_inference.py (in the bash terminal)  
 
+### Running the Project without a Container
+
+
+
 ### Summary
 
 The model and project appear successful except for the lack of Minikube and the difficulty of building a small enough docker image to email that has GPU support.  
