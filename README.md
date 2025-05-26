@@ -46,6 +46,8 @@ Logging is implemented using the standard Python logger set to the "info" level.
 
 Backup management was handled by periodically copying the working code folder to a flash drive. In a professional setting, version control would ideally be managed via Git, with changes committed to a dedicated branch. The code was formatted using Black and validated with MyPy. Unit testing was conducted using pytest. While a production-grade implementation would benefit from a configuration file, time constraints led to handling configurations through constants defined in Python files.  
 
+The only file subjected to unit testing was utils.py, achieving a test coverage of 87%. The testing process included verifying that the LSTM network's forward function executes without errors, which was accomplished using the torchinfo package. Most of the functionality in train.py and inference.py depends on running training on a GPU, making unit testing in a production environment challenging. Based on my experience, these types of functions are difficult to test effectively without dedicated hardware. At my previous workplace, Bitbucket automatically ran unit tests as part of merging changes into the main branch of the Git repository. However, since a GPU was not available to BitBucket, these types of functions were not tested.  
+
 ### Project Structure
 
 The Python training script (app_train.py) can be executed from the top level of the project. It calls train.py and utilizes shared utility functions from utils.py. Similarly, inference is performed using app_inference.py, which follows the same execution structure.  
