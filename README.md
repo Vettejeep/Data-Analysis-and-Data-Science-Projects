@@ -84,9 +84,9 @@ mypy-extensions           1.1.0
 Deployment was successfully completed using a Docker container, and the code was fully tested within this environment. Both training and inference performed equally well in the container as they did in Linux command-line testing. The Dockerfile in the project provides a complete recipe for building the Docker image.
 However, two challenges were encountered:  
 
-    1. Large container size with GPU support – The Docker container supporting GPU acceleration was too large to send via email. Based on information from OpenAI's ChatGPT (OpenAI, 2024), reducing the container size significantly appears difficult, as even a minimal GPU runtime container could be around 5GB. The project utilizes an official PyTorch Docker distribution, which may contribute to the size. With more Docker expertise, a smaller container might be achievable, but ChatGPT was skeptical about reducing it below 25MB for email transfer.  
+1. Large container size with GPU support – The Docker container supporting GPU acceleration was too large to send via email. Based on information from OpenAI's ChatGPT (OpenAI, 2024), reducing the container size significantly appears difficult, as even a minimal GPU runtime container could be around 5GB. The project utilizes an official PyTorch Docker distribution, which may contribute to the size. With more Docker expertise, a smaller container might be achievable, but ChatGPT was skeptical about reducing it below 25MB for email transfer.  
     
-    2. Minikube installation issues – Minikube proved difficult to install or was incompatible with my Ubuntu 24.04 Linux distribution, preventing successful installation. I have no prior experience with Minikube.  
+2. Minikube installation issues – Minikube proved difficult to install or was incompatible with my Ubuntu 24.04 Linux distribution, preventing successful installation. I have no prior experience with Minikube.  
 
 Despite these issues, I am confident that with some mentorship, these challenges could be easily resolved. Sci-Tech already has working container implementations, and I am certain I could quickly develop expertise in this area—especially considering my successful experience building a Docker-compatible PyTorch GPU environment.
 The deployment recipe is documented in app_train.py and follows this approach:  
