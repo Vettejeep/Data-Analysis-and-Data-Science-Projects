@@ -4,7 +4,7 @@
 
 From the viewpoint of building an LSTM model and predicting the reentry timestamp on an unseen validation data set carved out of the training data the project went very well. A simple LSTM model with some feature engineering performed on the data given appears to perform well. As the training data set was small, 20% was taken for the validation data which was not used for training the model. I have not seen any errors in the validation set that are greater than 0.50 seconds (one time step) in a fully trained model. Inference results are saved to a csv file in the logs folder for easy use in analysis. These carry the same timestamp as the inference log file for reference. 
 
-Given the training data size of 90 segments, the 20% used for validation amounted to 18 missile launch and reentry events for validation testing. Of the 18 segments, none were off by more than 0.50 seconds (one timestamp). This resulted in an RMSE for validation of 0.118 seconds as only one track was in error in the most recent training run. Generally 1-6 tracks may be off by 0.50 seconds in the validation set but I have not observed any errors larger thaan 0.5 seconds in training. This compares to an RMSE of 3.659 seconds for the baseline of simply using the average altitude of reentry. The LSTM model has significantly better performance than the simple baseline proposed.The baseline altitude reentry method had errors up to 7 seconds.
+Given the training data size of 90 segments, the 20% used for validation amounted to 18 missile launch and reentry events for validation testing. Of the 18 segments, none were off by more than 0.50 seconds (one timestamp). This resulted in an RMSE for validation of 0.118 seconds as only one track was in error in the most recent training run. Generally 1-6 tracks may be off by 0.50 seconds in the validation set but I have not observed any errors larger than 0.5 seconds in training. This compares to an RMSE of 3.659 seconds for the baseline of simply using the average altitude of reentry. The LSTM model has significantly better performance than the simple baseline proposed. The baseline altitude reentry method had errors up to 7 seconds.
 
 ![Validation Error](img/val_error_hist_final.png)  
 ![Validation Error](img/baseline_error_hhistogram.png)  
@@ -13,9 +13,9 @@ The data appears noisy, however the model was able to work through the noise wit
 
 ### Feature Engineering
 
-Features given for this model were minimal. Analysis with a Jupyter data exploration notebook suggested several possible new features. Altituude change was the first feature extracted from the data on a track-wise basis. A histogram of altitude change revealed that a flag for descending might be helpful when used wth a descent threshold. While there is noise in the altitude change, there are large gaps shown by the histogram that allow a descent threshold to work for an "is_descending" flag. All reentries in the training data file were found to be in the descending phase by plotting the data. This was practical given the data size.
+Features given for this model were minimal. Analysis with a Jupyter data exploration notebook suggested several possible new features. Altitude change was the first feature extracted from the data on a track-wise basis. A histogram of altitude change revealed that a flag for descending might be helpful when used with a descent threshold. While there is noise in the altitude change, there are large gaps shown by the histogram that allow a descent threshold to work for an "is_descending" flag. All reentries in the training data file were found to be in the descending phase by plotting the data. This was practical given the data size.
 
-Horizontal distance was computed from latitude and longitude using a haversine formula for great circle distance. From this total distance including altitude change was also computed. Along with the time step delta of 0.5 seconds this led to a velocity feature. All of these features helped the model to perform better in my initial testing and so were kept for the final model. The sensor ID column was dropped because it only had one unique value in the training data. The timestamps were all equally spaced which is needed for the LSTM model, there was no need to impute any missing data. Timestamp was not a feature used by the model, but it was used for ouutput data reporting.
+Horizontal distance was computed from latitude and longitude using a haversine formula for great circle distance. From this total distance including altitude change was also computed. Along with the time step delta of 0.5 seconds this led to a velocity feature. All of these features helped the model to perform better in my initial testing and so were kept for the final model. The sensor ID column was dropped because it only had one unique value in the training data. The timestamps were all equally spaced which is needed for the LSTM model, there was no need to impute any missing data. Timestamp was not a feature used by the model, but it was used for output data reporting.
 
 Th entire sequence was passed to the model for each track ID. As an enhancement the model could, based on existing data, only consider the descent phase of the data. I did not know if this was acceptable for the project. It was tried and worked well but was discarded because it would depend on the flight profiles, which may be different if a failed launch happened.  
 
@@ -45,6 +45,31 @@ For training the Python script app_train.py can be called from the top level of 
 
 ![Validation Error](img/project_structure.png)
 
+### Running the Project without a Container  
+
+The project can be run from the command line with a compatible Python conda environment and needed packages installed. Run it from the root folder of the project as follows: 
+
++python app_train.py (to run a training session, GPU needed)  
++python app_inference.py (to run an inference session, training is a prerequisite, no GPU needed)
+
+The project has been tested in Linux with Ubuntu 24.04. While it is forgiving of a range of python packages, below is a list of the packages that the application was tested on:
+
+Python                    3.10.16  
+torch                     2.7.0+cu118  
+torchaudio                2.7.0+cu118  
+torchinfo                 1.8.0  
+torchvision               0.22.0+cu118  
+pandas                    2.2.3  
+numpy                     2.2.5  
+scipy                     1.15.3  
+scikit-learn              1.6.1  
+matplotlib                3.10.0  
+black                     25.1.0  
+pytest                    8.3.5  
+pytest-cov                6.1.1  
+mypy                      1.15.0  
+mypy-extensions           1.1.0  
+
 ### Containerization 
 
 Deployment was done to a Docker container and the code fully tested from there. Both training and inference worked as well with the container as they did in command line testing in Linux, which is to say that they worked very well. 
@@ -60,10 +85,6 @@ I believe that if I were hired that these issues could be resolved easily by som
 +docker run -it --rm --gpus all -v \\$(pwd)/logs:/app/logs -v \\$(pwd)/model:/app/model -p 8898:8898 pytorch-app (gets a bash terminal)  
 +python app_train.py (in the bash terminal)  
 +python app_inference.py (in the bash terminal)  
-
-### Running the Project without a Container
-
-
 
 ### Summary
 
