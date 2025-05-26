@@ -39,7 +39,8 @@ I believe that if I were hired that these issues could be resolved easily by som
 +docker pull pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime  
 +docker build -t pytorch-app .  
 +docker run -it --rm --gpus all -v \\$(pwd)/logs:/app/logs -v \\$(pwd)/model:/app/model -p 8898:8898 pytorch-app (gets a bash terminal)  
-+python app_train.py (in the bash terminal)  
++python app_train.py (in the bash terminal)
++python app_inference.py (in the bash terminal)
 
 ### Summary
 
