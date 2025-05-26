@@ -13,11 +13,11 @@ The data appears noisy, however the model was able to work through the noise wit
 
 ### Feature Engineering
 
-Features given for this model were minimal. Analysis with a Jupyter data exploration notebook suggested several possible new features. Altitude change was the first feature extracted from the data on a track-wise basis. A histogram of altitude change revealed that a flag for descending might be helpful when used with a descent threshold. While there is noise in the altitude change, there are large gaps shown by the histogram that allow a descent threshold to work for an "is_descending" flag. All reentries in the training data file were found to be in the descending phase by plotting the data. This was practical given the data size.
+Data analysis and feature engineering were explored using a Jupyter notebook included with the project (SciTechDataStudy.ipynb). Features given for this model were minimal. Analysis with the Jupyter data exploration notebook suggested several possible new features. Altitude change was the first feature extracted from the data on a track-wise basis. A histogram of altitude change revealed that a flag for descending might be helpful when used with a descent threshold. While there is noise in the altitude change, there are large gaps shown by the histogram that allow a descent threshold to work for an "is_descending" flag. All reentries in the training data file were found to be in the descending phase by plotting the data. This was practical given the data size.
 
 Horizontal distance was computed from latitude and longitude using a haversine formula for great circle distance. From this total distance including altitude change was also computed. Along with the time step delta of 0.5 seconds this led to a velocity feature. All of these features helped the model to perform better in my initial testing and so were kept for the final model. The sensor ID column was dropped because it only had one unique value in the training data. The timestamps were all equally spaced which is needed for the LSTM model, there was no need to impute any missing data. Timestamp was not a feature used by the model, but it was used for output data reporting.
 
-Th entire sequence was passed to the model for each track ID. As an enhancement the model could, based on existing data, only consider the descent phase of the data. I did not know if this was acceptable for the project. It was tried and worked well but was discarded because it would depend on the flight profiles, which may be different if a failed launch happened.  
+Th entire sequence was passed to the model for each track ID. As an enhancement the model could, based on existing data, could only consider the descent phase of the data. I did not know if this was acceptable for the project. It was tried and worked well but was discarded because it would depend on the flight profiles, which may be different if a failed launch happened.  
 
 ### The LSTM Model  
 
@@ -72,9 +72,9 @@ mypy-extensions           1.1.0
 
 ### Containerization 
 
-Deployment was done to a Docker container and the code fully tested from there. Both training and inference worked as well with the container as they did in command line testing in Linux, which is to say that they worked very well. 
+Deployment was done to a Docker container and the code fully tested from there. Both training and inference worked as well with the container as they did in command line testing in Linux, which is to say that they worked very well. The "Dockerfile" in the project gives the recipe for building a docker image for the project.
 
-However, there were two problems. First, the docker container with GPU support was too large to send via an email. Checking with ChatGPT this appears to be a difficult problem to solve as ChatGPT was expecting that even a runtime container for GPU usage would be as large as 5GB. I used an official PyTorch distribution for Docker, so perhaps with more Docker experience a smaller container can be built, but as noted above, ChatGPT was not optimistic about getting to under 25MB for an email.  
+However, there were two problems. First, the docker container with GPU support was too large to send via an email. Checking with ChatGPT (OpenAI, 2024) this appears to be a difficult problem to solve as ChatGPT was expecting that even a runtime container for GPU usage would be as large as 5GB. I used an official PyTorch distribution for Docker, so perhaps with more Docker experience a smaller container can be built, but as noted above, ChatGPT was not optimistic about getting to under 25MB for an email.  
 
 Second, Minikube proved to be either very difficult to install or incompatible with my Ubuntu 24.04 Linux distribution. Thus I was unable to install Minikube, which I have no experience with.  
 
@@ -88,5 +88,11 @@ I believe that if I were hired that these issues could be resolved easily by som
 
 ### Summary
 
-The model and project appear successful except for the lack of Minikube and the difficulty of building a small enough docker image to email that has GPU support.  
+The model and project appear successful except for the lack of Minikube and the difficulty of building a small enough docker image to email that has GPU support. For me, these could be fixed with some mentoring help and an example of a working system. ChatGPT (OpenAI, 2024) and Microsoft CoPilot (Microsoft, 2025) were consulted during coding. A larger LSTM could be tried, which may then need batch normalization and/or dropout. Because of the performance of the existing model it would take a number of training runs to obtain a statistical difference in validation performance including checks with different test and validation splits of the training data. Feature engineering aided the model considerably and resulted in an effective LSTM model to predict the time of the reentry phase of flight.   
+
+### Citations
+
+Microsoft. (2025). Copilot (GPT-4) [Large Language Model]. [Copilot website.](https://copilot.microsoft.com/chats/M94K2i5TFktPWDrA67n5Q)  
+
+OpenAI. (2024). ChatGPT (May 24 version) [Large language model]. https://chat.openai.com/
 
